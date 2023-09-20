@@ -12,7 +12,7 @@ resource "aws_vpc" "this" {
   enable_dns_hostnames = true
 
   tags = {
-    "Name" = "my-cheapest-eks-vpc"
+    "Name" = "platform-demo-eks-vpc"
   }
 }
 
