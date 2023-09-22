@@ -12,7 +12,7 @@ resource "aws_vpc" "this" {
   enable_dns_hostnames = true
 
   tags = {
-    "Name" = "my-cheapest-eks-vpc"
+    "Name" = "platform-demo-eks-vpc"
   }
 }
 
@@ -52,6 +52,9 @@ resource "aws_route_table" "public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.this.id
   }
+  depends_on = [ 
+    aws_vpc.this
+     ]
 }
 
 # Associate route table with public subnets
@@ -59,4 +62,61 @@ resource "aws_route_table_association" "public" {
   count          = length(aws_subnet.public)
   subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
+
+  depends_on = [ 
+    aws_subnet.public,
+    aws_route_table.public
+   ]
+}
+
+# Allocate an Elastic IP for NAT Gateway
+resource "aws_eip" "nat_eip" {
+  domain = "vpc"
+
+  depends_on = [ aws_vpc.this ]
+}
+
+# Create a NAT Gateway
+resource "aws_nat_gateway" "this" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.public[0].id  # Assuming NAT Gateway is in the first public subnet
+
+  tags = {
+    "Name" = "platform-demo-eks-nat-gateway"
+  }
+  depends_on = [ 
+    aws_eip.nat_eip,
+    aws_subnet.public
+   ]
+}
+
+# Create a route table for private subnets
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.this.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.this.id
+  }
+
+  tags = {
+    "Name" = "private-route-table"
+  }
+
+  depends_on = [ 
+    aws_nat_gateway.this,
+    aws_vpc.this,
+   ]
+}
+
+# Associate route table with private subnets
+resource "aws_route_table_association" "private" {
+  count          = length(aws_subnet.private)
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private.id
+
+  depends_on = [ 
+    aws_subnet.private,
+    aws_route_table.private
+   ]
 }
