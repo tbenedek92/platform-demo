@@ -1,4 +1,4 @@
-name: Terraform CI
+name: Terraform Apply CI
 
 on:
   workflow_dispatch:
@@ -10,10 +10,16 @@ jobs:
     defaults:
       run:
         working-directory: aws/terraform/environments/prd
-        
+
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
+    - name: Setup AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+        aws-region: us-central-1
 
     - uses: hashicorp/setup-terraform@v2
       with:
