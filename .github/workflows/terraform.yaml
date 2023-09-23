@@ -54,7 +54,21 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: terraform apply $DESTROY -auto-approve -var="aws_region=$AWS_REGION" -var="cluster_name=$CLUSTER_NAME"
 
-    - name: Setup Kubeconfig
-      if: github.ref == 'refs/heads/main'
-      run: aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME --kubeconfig ~/.kube/kubeconfig
+    # - name: Setup Kubeconfig
+    #   if: github.ref == 'refs/heads/main'
+    #   run: aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME --kubeconfig ~/.kube/config
+    
+    # - name: Encode Kubeconfig
+    #   if: github.ref == 'refs/heads/main'
+    #   run: cat $HOME/.kube/config | base64
 
+    - name: Enable prefix delegation in the cluster 
+      uses: ianbelcher/eks-kubectl-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: $AWS_REGION
+        cluster_name: $CLUSTER_NAME
+        # eks_role_arn: ${{ secrets.EKS_ROLE_ARN }}
+        # kubernetes_version: v1.21.0
+        args: set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
