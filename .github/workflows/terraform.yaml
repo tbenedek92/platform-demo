@@ -6,9 +6,8 @@ on:
       destroy:
         description: 'bool to destroy terraform'
         required: true
-        options:
-        - -destroy
-        - ""
+        default: false
+        type: boolean
 
 jobs:
   terraform:
@@ -21,6 +20,16 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
+
+    - name: Set DESTROY environment variable
+      run: |
+        if [ "${{ github.event.inputs.destroy }}" = "true" ]; then
+          echo "DESTROY=-destroy" >> $GITHUB_ENV
+        fi
+
+    - name: Echo the DESTROY value
+      run: echo "DESTROY value = $DESTROY"
+    
     - name: Setup AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -39,8 +48,8 @@ jobs:
       run: terraform validate
 
     - name: Terraform Plan
-      run: terraform plan ${{ github.events.inputs.destroy }}
+      run: terraform plan $DESTROY
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve ${{ github.events.inputs.destroy }}
+      run: terraform apply $DESTROY -auto-approve 
