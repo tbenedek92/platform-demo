@@ -6,7 +6,7 @@ on:
       destroy:
         description: 'bool to destroy terraform'
         required: true
-        # default: ""
+        default: false
         type: boolean
 
 jobs:
@@ -48,8 +48,8 @@ jobs:
       run: terraform validate
 
     - name: Terraform Plan
-      run: terraform plan $(echo "$DESTROY")
+      run: terraform plan $DESTROY
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: terraform apply $(echo "$DESTROY") -auto-approve 
+      run: terraform apply $DESTROY -auto-approve 
