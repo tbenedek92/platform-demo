@@ -48,8 +48,8 @@ jobs:
       run: terraform validate
 
     - name: Terraform Plan
-      run: terraform plan $DESTROY
+      run: terraform plan "$DESTROY"
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: terraform apply $DESTROY -auto-approve 
+      run: terraform apply "$DESTROY" -auto-approve 
