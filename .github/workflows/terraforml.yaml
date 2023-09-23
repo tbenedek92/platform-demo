@@ -5,7 +5,7 @@ on:
     inputs:
       destroy:
         description: 'bool to destroy terraform'
-        required: true
+        required: false
         default: ""
         options:
         - -destroy
