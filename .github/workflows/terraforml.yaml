@@ -2,6 +2,13 @@ name: Terraform Apply CI
 
 on:
   workflow_dispatch:
+    inputs:
+      destroy:
+        description: 'bool to destroy terraform'
+        required: true
+        options:
+        - -destroy
+        - ""
 
 jobs:
   terraform:
@@ -32,8 +39,8 @@ jobs:
       run: terraform validate
 
     - name: Terraform Plan
-      run: terraform plan
+      run: terraform plan ${{ github.events.inputs.destroy }}
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve ${{ github.events.inputs.destroy }}
