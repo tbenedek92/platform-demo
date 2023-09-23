@@ -5,6 +5,8 @@ locals {
   private_subnets = ["10.0.3.0/24", "10.0.4.0/24"]
 }
 
+data "aws_availability_zones" "available" {}
+
 # Create a new VPC
 resource "aws_vpc" "this" {
   cidr_block = local.vpc_cidr
@@ -12,7 +14,7 @@ resource "aws_vpc" "this" {
   enable_dns_hostnames = true
 
   tags = {
-    "Name" = "platform-demo-eks-vpc"
+    "Name" = var.network_name
   }
 }
 
@@ -33,6 +35,7 @@ resource "aws_subnet" "private" {
   count = length(local.private_subnets)
   cidr_block = local.private_subnets[count.index]
   vpc_id = aws_vpc.this.id
+  availability_zone= "${data.aws_availability_zones.available.names[count.index]}"
 
   tags = {
     "Name" = "private-subnet-${count.index+1}"

@@ -3,11 +3,6 @@ variable "aws_region" {
   description = "AWS region to launch resources in."
 }
 
-variable "cluster_name" {
-  default = "tooling-cluster"
-  description = "eks cluster's name"
-}
-
 variable "network_name" {
-  default = "platform-demo-eks-vpc"
+  default = "vpc-1"
 }
