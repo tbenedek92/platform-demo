@@ -13,6 +13,9 @@ jobs:
   terraform:
     name: Terraform
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: eu-central-1
+      CLUSTER_NAME: tooling-cluster
     defaults:
       run:
         working-directory: aws/terraform/environments/prd
@@ -32,7 +35,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-central-1
+        aws-region: $AWS_REGION
 
     - uses: hashicorp/setup-terraform@v2
       with:
@@ -45,8 +48,13 @@ jobs:
       run: terraform validate
 
     - name: Terraform Plan
-      run: terraform plan $DESTROY
+      run: terraform plan $DESTROY -var="aws_region=$AWS_REGION" -var="cluster_name=$CLUSTER_NAME"
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: terraform apply $DESTROY -auto-approve 
+      run: terraform apply $DESTROY -auto-approve -var="aws_region=$AWS_REGION" -var="cluster_name=$CLUSTER_NAME"
+
+    - name: Setup Kubeconfig
+      if: github.ref == 'refs/heads/main'
+      run: aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME --kubeconfig ~/.kube/kubeconfig
+
