@@ -1,0 +1,52 @@
+name: Terraform Apply CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      destroy:
+        description: 'bool to destroy terraform'
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: aws/terraform/environments/prd
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Set DESTROY environment variable
+      run: |
+        if [ "${{ github.event.inputs.destroy }}" = "true" ]; then
+          echo "DESTROY=-destroy" >> $GITHUB_ENV
+        fi
+    
+    - name: Setup AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+        aws-region: eu-central-1
+
+    - uses: hashicorp/setup-terraform@v2
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Validate
+      run: terraform validate
+
+    - name: Terraform Plan
+      run: terraform plan $DESTROY
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main'
+      run: terraform apply $DESTROY -auto-approve 
