@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set DESTROY environment variable
       run: |
@@ -35,7 +35,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: "$AWS_REGION"
+        aws-region: ${{ env.AWS_REGION }}
 
     - uses: hashicorp/setup-terraform@v2
       with:
@@ -48,11 +48,11 @@ jobs:
       run: terraform validate
 
     - name: Terraform Plan
-      run: terraform plan $DESTROY -var="aws_region=$AWS_REGION" -var="cluster_name=$CLUSTER_NAME"
+      run: terraform plan $DESTROY -var="aws_region=${{ env.AWS_REGION }}" -var="cluster_name=${{ env.CLUSTER_NAME }}"
 
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/main'
-      run: terraform apply $DESTROY -auto-approve -var="aws_region=$AWS_REGION" -var="cluster_name=$CLUSTER_NAME"
+      run: terraform apply $DESTROY -auto-approve -var="aws_region=${{ env.AWS_REGION }}" -var="cluster_name=${{ env.CLUSTER_NAME }}"
 
     # - name: Setup Kubeconfig
     #   if: github.ref == 'refs/heads/main'
@@ -67,8 +67,8 @@ jobs:
       with:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_region: $AWS_REGION
-        cluster_name: $CLUSTER_NAME
+        aws_region: ${{ env.AWS_REGION }}
+        cluster_name: ${{ env.CLUSTER_NAME }}
         # eks_role_arn: ${{ secrets.EKS_ROLE_ARN }}
         # kubernetes_version: v1.21.0
         args: set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
