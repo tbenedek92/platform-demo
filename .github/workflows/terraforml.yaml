@@ -21,7 +21,7 @@ jobs:
         working-directory: aws/terraform/environments/prd
 
     steps:
-    - run: echo ${{ github.events.inputs.destroy }}
+    - run: echo "${{ github.events.inputs.destroy }}"
       name: echo
     - name: Checkout repo
       uses: actions/checkout@v2
