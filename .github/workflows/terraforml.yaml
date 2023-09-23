@@ -18,6 +18,9 @@ jobs:
         working-directory: aws/terraform/environments/prd
 
     steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
     - name: Set DESTROY environment variable
       run: |
         if [ "${{ github.event.inputs.destroy }}" = "true" ]; then
@@ -26,9 +29,6 @@ jobs:
 
     - name: Echo the DESTROY value
       run: echo "DESTROY value = $DESTROY"
-
-    - name: Checkout repo
-      uses: actions/checkout@v2
     
     - name: Setup AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
