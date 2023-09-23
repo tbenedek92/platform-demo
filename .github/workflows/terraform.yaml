@@ -51,7 +51,7 @@ jobs:
       run: terraform plan $DESTROY -var="aws_region=$AWS_REGION" -var="cluster_name=$CLUSTER_NAME"
 
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main'
+      # if: github.ref == 'refs/heads/main'
       run: terraform apply $DESTROY -auto-approve -var="aws_region=$AWS_REGION" -var="cluster_name=$CLUSTER_NAME"
 
     # - name: Setup Kubeconfig
