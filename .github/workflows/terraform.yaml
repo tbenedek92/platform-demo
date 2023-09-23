@@ -26,9 +26,6 @@ jobs:
         if [ "${{ github.event.inputs.destroy }}" = "true" ]; then
           echo "DESTROY=-destroy" >> $GITHUB_ENV
         fi
-
-    - name: Echo the DESTROY value
-      run: echo "DESTROY value = $DESTROY"
     
     - name: Setup AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
