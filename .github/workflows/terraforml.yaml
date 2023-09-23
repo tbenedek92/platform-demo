@@ -7,6 +7,7 @@ on:
         description: 'bool to destroy terraform'
         required: true
         # default: ""
+        type: choice
         options:
         - -destroy
         - ""
