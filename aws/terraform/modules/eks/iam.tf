@@ -84,7 +84,8 @@ module "eks_admins_iam_group" {
   name                              = "eks-terraform-admin"
   attach_iam_self_management_policy = false
   create_group                      = true
-  group_users                       = [data.aws_identitystore_user.platform-admin.user_name , module.iam_eks_terraform_user.iam_user_name ]
+#  group_users                       = [data.aws_identitystore_user.platform-admin.user_name , module.iam_eks_terraform_user.iam_user_name ]
+  group_users                       = [module.iam_eks_terraform_user.iam_user_name ]
   custom_group_policy_arns          = [module.iam_policy_assume_eks_admin_access.arn]
 }
 
