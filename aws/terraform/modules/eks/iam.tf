@@ -48,6 +48,11 @@ module "iam_eks_terraform_user" {
   force_destroy                 = true
 }
 
+data "aws_identitystore_user" "platform-admin" {
+  user_id = "4da4f9a0-d021-704c-747a-9fdfec351b59"
+  identity_store_id = "d-cc673472ee"
+}
+
 # IAM policy to allow assume eks-terraform-admin IAM role ###
 
 module "iam_policy_assume_eks_admin_access" {
@@ -79,7 +84,7 @@ module "eks_admins_iam_group" {
   name                              = "eks-terraform-admin"
   attach_iam_self_management_policy = false
   create_group                      = true
-  group_users                       = [module.iam_eks_terraform_user.iam_user_name]
+  group_users                       = [data.aws_identitystore_user.platform-admin.user_name , module.iam_eks_terraform_user.iam_user_name ]
   custom_group_policy_arns          = [module.iam_policy_assume_eks_admin_access.arn]
 }
 
