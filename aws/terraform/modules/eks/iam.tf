@@ -48,10 +48,10 @@ module "iam_eks_terraform_user" {
   force_destroy                 = true
 }
 
-data "aws_identitystore_user" "platform-admin" {
-  user_id = "4da4f9a0-d021-704c-747a-9fdfec351b59"
-  identity_store_id = "d-cc673472ee"
-}
+# data "aws_identitystore_user" "platform-admin" {
+#   user_id = "4da4f9a0-d021-704c-747a-9fdfec351b59"
+#   identity_store_id = "d-cc673472ee"
+# }
 
 # IAM policy to allow assume eks-terraform-admin IAM role ###
 
