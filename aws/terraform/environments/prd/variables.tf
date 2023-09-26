@@ -11,3 +11,13 @@ variable "cluster_name" {
 variable "network_name" {
   default = "platform-demo-eks-vpc"
 }
+
+variable "eks_tags" {
+  default     = {
+    environment = "prd",
+    terraform = "true",
+    
+  }
+  description = "Resource tags"
+  type        = map(string)
+}

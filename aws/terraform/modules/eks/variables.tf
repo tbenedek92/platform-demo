@@ -7,3 +7,9 @@ variable "cluster_name" {
   default = "tooling-cluster"
   description = "eks cluster's name"
 }
+
+variable "eks_tags" {
+  default     = {}
+  description = "Resource tags"
+  type        = map(string)
+}
