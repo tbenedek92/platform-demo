@@ -55,24 +55,24 @@ jobs:
       run: terraform apply $DESTROY -auto-approve -var="aws_region=${{ env.AWS_REGION }}" -var="cluster_name=${{ env.CLUSTER_NAME }}"
 
 ## Alternative way to setup kubeconfig
-    # - name: Setup Kubeconfig
-    #   if: github.ref == 'refs/heads/main'
-    #   run: aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME --kubeconfig ~/.kube/config
+    - name: Setup Kubeconfig
+      if: github.ref == 'refs/heads/main'
+      run: aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME --kubeconfig ~/.kube/config --alias ${{ env.CLUSTER_NAME }}
     
     # - name: Encode Kubeconfig
     #   if: github.ref == 'refs/heads/main'
     #   run: cat $HOME/.kube/config | base64
 ## --------------------------
 
-    - name: Enable prefix delegation in the cluster 
-      uses: ianbelcher/eks-kubectl-action@master
-      if: "${{ github.event.inputs.destroy == 'false' }}"
-      with:
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_region: ${{ env.AWS_REGION }}
-        cluster_name: ${{ env.CLUSTER_NAME }}
-        args: set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
+    # - name: Enable prefix delegation in the cluster 
+    #   uses: ianbelcher/eks-kubectl-action@master
+    #   if: "${{ github.event.inputs.destroy == 'false' }}"
+    #   with:
+    #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws_region: ${{ env.AWS_REGION }}
+    #     cluster_name: ${{ env.CLUSTER_NAME }}
+    #     args: set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 
     # - name: echo aws-auth
     #   uses: ianbelcher/eks-kubectl-action@master
