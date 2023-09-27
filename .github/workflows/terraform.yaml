@@ -56,7 +56,6 @@ jobs:
 
 ## Alternative way to setup kubeconfig
     - name: Setup Kubeconfig
-      if: github.ref == 'refs/heads/main'
       run: aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME --kubeconfig ~/.kube/config --alias ${{ env.CLUSTER_NAME }}
     
     # - name: Encode Kubeconfig
