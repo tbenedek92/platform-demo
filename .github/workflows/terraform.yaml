@@ -95,7 +95,7 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: ${{ env.AWS_REGION }}
         cluster_name: ${{ env.CLUSTER_NAME }}
-        args: create namespace argocd
+        args: create namespace <add-namespace-here> --dry-run=client -o yaml | kubectl apply -f -
 
     - name: Deploy argo
       uses: ianbelcher/eks-kubectl-action@master
