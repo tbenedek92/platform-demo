@@ -23,4 +23,3 @@ resource "aws_eks_node_group" "tooling-nodes" {
     aws_iam_role_policy_attachment.custom-eks-node-policy,
   ]
 }
-
