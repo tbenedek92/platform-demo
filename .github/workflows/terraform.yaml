@@ -86,3 +86,6 @@ jobs:
 
     # - name: Use the output
     #   run: echo "${{ steps.echo-aws-auth.outputs.kubectl-out }}"
+    - name: Deploy ArgoCD
+      run: kubectl create namespace argocd && \
+           kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
