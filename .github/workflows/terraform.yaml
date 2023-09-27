@@ -72,3 +72,14 @@ jobs:
         # eks_role_arn: ${{ secrets.EKS_ROLE_ARN }}
         # kubernetes_version: v1.21.0
         args: set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
+
+    - name: echo aws-auth
+      uses: ianbelcher/eks-kubectl-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: ${{ env.AWS_REGION }}
+        cluster_name: ${{ env.CLUSTER_NAME }}
+        # eks_role_arn: ${{ secrets.EKS_ROLE_ARN }}
+        # kubernetes_version: v1.21.0
+        args: get configmap -n kube-system aws-auth -o yaml 
