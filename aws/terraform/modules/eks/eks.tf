@@ -53,6 +53,11 @@ module "eks" {
       username = module.eks_terraform_admin_iam_assumable_role.iam_role_name
       groups   = ["system:masters"]
     },
+    {
+      rolearn  = "arn:aws:iam::570775155304:role/AWSReservedSSO_AdministratorAccess_cda24081429f1c83"
+      username = "AWSReservedSSO_AdministratorAccess_cda24081429f1c83"
+      groups   = ["system:masters"]
+    },
   ]
   aws_auth_users = [
     {
