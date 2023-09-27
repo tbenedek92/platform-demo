@@ -79,6 +79,12 @@ jobs:
     - name: Enable prefix delegation
       run: kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 
+    - name: helm repo add ingress-nginx 
+      run: helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx && helm repo update
+
+    - name: deploy nginx-controller
+      run: helm install ingress-nginx ingress-nginx/ingress-nginx -n kube-system
+
     - name: Create namespace for ArgoCD
       run: kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
 
