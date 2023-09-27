@@ -71,7 +71,7 @@ jobs:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: ${{ env.AWS_REGION }}
-        cluster_name: ${{ env.CLUSTER_NAME }} --alias ${{ env.CLUSTER_NAME }} # hack to inject an Alias for the context
+        cluster_name: ${{ env.CLUSTER_NAME }}
         args: set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 
     # - name: echo aws-auth
@@ -89,6 +89,6 @@ jobs:
 
 
     - name: Deploy ArgoCD
-      run: kubectl config use-context ${{ env.CLUSTER_NAME }} && \
+      run: kubectl config use-context arn:aws:eks:eu-central-2:570775155304:cluster/${{ env.CLUSTER_NAME }} && \
            kubectl create namespace argocd && \
            kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
