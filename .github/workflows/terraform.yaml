@@ -86,4 +86,4 @@ jobs:
         args: get configmap -n kube-system aws-auth -o yaml 
 
     - name: Use the output
-      run: echo "${{ steps.kubectl.outputs.echo-aws-auth-out }}"
+      run: echo "${{ steps.echo-aws-auth.outputs.kubectl-out }}"
