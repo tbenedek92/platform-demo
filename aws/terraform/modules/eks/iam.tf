@@ -26,15 +26,15 @@ module "iam_policy_eks_admin_access" {
 # Creating an IAM role called "eks-terraform-admin" and associating it with the Kubernetes 'system:masters' Role-Based Access Control (RBAC) group. ####
 
 module "eks_terraform_admin_iam_assumable_role" {
-  source                  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  version                 = "5.22.0"
+  source                  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
+  version                 = "5.30.0"
   role_name               = "eks-terraform-admin"
   create_role             = true
   role_requires_mfa       = false
-  custom_role_policy_arns = [module.iam_policy_eks_admin_access.arn]
-  trusted_role_arns = [
-    "arn:aws:iam::570775155304:role/aws-reserved/sso.amazonaws.com/eu-central-2/AWSReservedSSO_AdministratorAccess_cda24081429f1c83"
-  ]
+  role_policy_arns = [module.iam_policy_eks_admin_access.arn]
+#  trusted_role_arns = [
+#    "arn:aws:iam::570775155304:role/aws-reserved/sso.amazonaws.com/eu-central-2/AWSReservedSSO_AdministratorAccess_cda24081429f1c83"
+#  ]
 }
 
 # IAM role is ready, create a user IAM user (eks-terraform-user) that gets access to that role ###
@@ -84,7 +84,7 @@ module "eks_admins_iam_group" {
   name                              = "eks-terraform-admin"
   attach_iam_self_management_policy = false
   create_group                      = true
-  group_users                       = [data.aws_identitystore_user.platform-admin.user_name , module.iam_eks_terraform_user.iam_user_name ]
+  group_users                       = [module.iam_eks_terraform_user.iam_user_name ]
+#  group_users                       = [data.aws_identitystore_user.platform-admin.user_name , module.iam_eks_terraform_user.iam_user_name ]
   custom_group_policy_arns          = [module.iam_policy_assume_eks_admin_access.arn]
 }
-

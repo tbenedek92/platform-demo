@@ -54,6 +54,13 @@ module "eks" {
       groups   = ["system:masters"]
     },
   ]
+  aws_auth_users = [
+    {
+      userarn  = "arn:aws:sts::570775155304:assumed-role/AWSReservedSSO_AdministratorAccess_cda24081429f1c83/benedek-platform-admin"
+      username = "benedek-platform-admin"
+      groups   = ["system:masters"]
+    }
+  ]
 
   tags = var.eks_tags
 }
