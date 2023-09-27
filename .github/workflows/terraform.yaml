@@ -75,6 +75,7 @@ jobs:
 
     - name: echo aws-auth
       uses: ianbelcher/eks-kubectl-action@master
+      id: echo-aws-auth
       with:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -83,3 +84,6 @@ jobs:
         # eks_role_arn: ${{ secrets.EKS_ROLE_ARN }}
         # kubernetes_version: v1.21.0
         args: get configmap -n kube-system aws-auth -o yaml 
+
+    - name: Use the output
+      run: echo "${{ steps.kubectl.outputs.echo-aws-auth-out }}"
