@@ -32,10 +32,9 @@ module "eks" {
 
   eks_managed_node_groups = {
     general = {
-      desired_size = 6
       min_size     = 2
       max_size     = 10
-
+      desired_size = 6
       labels = {
         role = "general"
       }
