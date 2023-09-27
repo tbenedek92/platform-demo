@@ -87,7 +87,10 @@ jobs:
     # - name: Use the output
     #   run: echo "${{ steps.echo-aws-auth.outputs.kubectl-out }}"
 
-    - name: Deploy ArgoCD
+    - name: cat kube/.config
+      run: cat /github/home/.kube/config
+
+    - name: Echo kubeconfig
       run: kubectl config view
 
     - name: Deploy ArgoCD
