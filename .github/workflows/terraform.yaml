@@ -87,22 +87,10 @@ jobs:
     # - name: Use the output
     #   run: echo "${{ steps.echo-aws-auth.outputs.kubectl-out }}"
 
-    - name: Create argo namespace
-      uses: ianbelcher/eks-kubectl-action@master
-      if: "${{ github.event.inputs.destroy == 'false' }}"
-      with:
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_region: ${{ env.AWS_REGION }}
-        cluster_name: ${{ env.CLUSTER_NAME }}
-        args: create namespace <add-namespace-here> --dry-run=client -o yaml | kubectl apply -f -
+    - name: Deploy ArgoCD
+      run: kubectl config view
 
-    - name: Deploy argo
-      uses: ianbelcher/eks-kubectl-action@master
-      if: "${{ github.event.inputs.destroy == 'false' }}"
-      with:
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_region: ${{ env.AWS_REGION }}
-        cluster_name: ${{ env.CLUSTER_NAME }}
-        args: apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    - name: Deploy ArgoCD
+      run: kubectl config use-context arn:aws:eks:eu-central-2:570775155304:cluster/${{ env.CLUSTER_NAME }} && \
+           kubectl create namespace argocd && \
+           kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
