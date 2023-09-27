@@ -49,23 +49,18 @@ module "eks" {
   manage_aws_auth_configmap = true
   aws_auth_roles = [
     {
-      rolearn  = module.eks_terraform_admin_iam_assumable_role.iam_role_arn
-      username = module.eks_terraform_admin_iam_assumable_role.iam_role_name
-      groups   = ["system:masters"]
-    },
-    {
       rolearn  = "arn:aws:iam::570775155304:role/AWSReservedSSO_AdministratorAccess_cda24081429f1c83"
       username = "AWSReservedSSO_AdministratorAccess_cda24081429f1c83"
       groups   = ["system:masters"]
     },
   ]
-  aws_auth_users = [
-    {
-      userarn  = "arn:aws:sts::570775155304:assumed-role/AWSReservedSSO_AdministratorAccess_cda24081429f1c83/benedek-platform-admin"
-      username = "benedek-platform-admin"
-      groups   = ["system:masters"]
-    }
-  ]
+  # aws_auth_users = [
+  #   {
+  #     userarn  = "arn:aws:sts::570775155304:assumed-role/AWSReservedSSO_AdministratorAccess_cda24081429f1c83/benedek-platform-admin"
+  #     username = "benedek-platform-admin"
+  #     groups   = ["system:masters"]
+  #   }
+  # ]
 
   tags = var.eks_tags
 }
