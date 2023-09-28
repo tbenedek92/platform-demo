@@ -130,7 +130,7 @@ addonResizer:
     tag: 1.8.19
   resources:
     requests:
-      cpu: 41m
+      cpu: 40m
       memory: 25Mi
     limits:
       cpu: 40m
