@@ -23,6 +23,7 @@ resource "aws_subnet" "public" {
   count = length(local.public_subnets)
   cidr_block = local.public_subnets[count.index]
   vpc_id = aws_vpc.this.id
+  availability_zone= "${data.aws_availability_zones.available.names[count.index]}"
   map_public_ip_on_launch = true
 
   tags = {
