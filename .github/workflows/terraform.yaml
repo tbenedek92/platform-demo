@@ -85,8 +85,5 @@ jobs:
     - name: deploy nginx-controller
       run: helm install ingress-nginx ingress-nginx/ingress-nginx -n kube-system
 
-    - name: Create namespace for ArgoCD
-      run: kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
-
     - name: Deploy ArgoCD
-      run: kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+      run: helm upgrade --install argocd -n argocd argo/argo-cd -f aws/argocd/values.yaml --create-namespace
