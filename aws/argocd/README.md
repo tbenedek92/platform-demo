@@ -1,9 +1,18 @@
-# ArgoCD deployment
+# ArgoCD setup
 
-Basic deployment of ArgoCD, with values configured for ingress with path `/argocd`.
+This folder contains all ArgoCD specific manifests.
 
-### How to deploy?
+## Bootstrapping ArgoCD
+With this approach any ArgoCD manifest from `main` branch in this repository under the `aws/argocd` folder is monitored and picked up automatically.
 
-```
-helm upgrade --install argocd -n argocd argo/argo-cd -f values.yaml 
-```
+## Folder structure
+
+### Applications
+Contains ArgoCD application manifests for each app, that should be monitored & deployed by ArgoCD. 
+The argo-bootstrap.yaml is used to monitor all resources under `aws/argocd`.
+
+### Projects
+Contains ArgoCD project manifests.
+
+### Repos
+Contains ArgoCD repository manifests for git & helm repositories.
