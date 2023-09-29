@@ -85,8 +85,10 @@ jobs:
             helm repo add argo https://argoproj.github.io/argo-helm && \
             helm repo update
 
-    - name: deploy nginx-controller
-      run: helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx -n kube-system
-
     - name: Deploy ArgoCD
-      run: helm upgrade --install argocd -n argocd argo/argo-cd -f aws/argocd/values.yaml --create-namespace
+      run: helm upgrade --install argocd -n argocd argo/argo-cd -f aws/charts/argocd/values.yaml --create-namespace
+
+    - name: Bootstrap ArgoCD
+      run: | 
+            kubectl apply -f aws/argocd/projects && \
+            kubectl apply -f aws/argocd/applications
