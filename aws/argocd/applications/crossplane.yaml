@@ -8,7 +8,7 @@ metadata:
 spec:
   project: tooling
   sources:
-  - chart: ingress-nginx
+  - chart: crossplane
     repoURL: https://charts.crossplane.io/stable
     targetRevision: 1.13.2
 
