@@ -3,4 +3,4 @@ aws/terraform/environments/*/terraform.tfstate
 aws/terraform/environments/*/terraform.tfstate.backup
 aws/terraform/environments/*/.terraform.lock.hcl
 aws/terraform/environments/*/.terraform.tfstate.lock.info
-*/.DS_Store
+*.DS_Store
