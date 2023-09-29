@@ -9,6 +9,9 @@ aws eks delete-nodegroup --cluster-name tooling-cluster   --nodegroup-name tooli
 
 By default AWS limits the number of ip addresses that can be assigned to a node. As in this project I use pretty small nodes (t3.micro) there can be only 4 IP addresses assigned to a node. Considering the 2 daemonset pods that are running by default on each k8s node, and the IP assigned to the node itself, I have only 1 IP address remaining, meaning each node can run only a single pod.
 
+The max number of IP addresses per machine can be found [here]
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI).
+
 The above case is detailed [here](https://aws.amazon.com/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/)
 
 Use the parameter ENABLE_PREFIX_DELEGATION to configure the VPC CNI plugin to assign prefixes to network interfaces.
