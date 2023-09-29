@@ -1,7 +1,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  generation: 4
   name: tooling
   namespace: argocd
 spec:
@@ -14,4 +13,6 @@ spec:
     server: https://kubernetes.default.svc
   sourceRepos:
   - https://github.com/tbenedek92/platform-demo.git
+  - https://kubernetes.github.io/ingress-nginx
+  - https://kubernetes-sigs.github.io/metrics-server/
 status: {}
