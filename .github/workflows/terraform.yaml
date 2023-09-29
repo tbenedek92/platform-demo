@@ -16,7 +16,7 @@ jobs:
   destroy-cluster:
     name: Destroy LB in clsuter
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.destroy == 'false' }}
+    if: ${{ github.event.inputs.destroy == 'true' }}
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
