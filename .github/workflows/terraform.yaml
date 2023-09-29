@@ -13,6 +13,30 @@ env:
   CLUSTER_NAME: tooling-cluster
 
 jobs:
+  destroy-cluster:
+    name: Destroy LB in clsuter
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.destroy == 'true' }}
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+    
+    - name: Setup AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Setup Kubeconfig
+      run: aws eks update-kubeconfig --region $AWS_REGION --name ${{ env.CLUSTER_NAME }} --kubeconfig ~/.kube/config --alias ${{ env.CLUSTER_NAME }}
+
+    - name: Set the proper context
+      run: kubectl config use-context ${{ env.CLUSTER_NAME }}
+
+    - name: Bootstrap ArgoCD
+      run: kubectl delete -f aws/argocd/applications 
+
   terraform:
     name: Terraform
     runs-on: ubuntu-latest
