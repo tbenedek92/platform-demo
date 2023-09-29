@@ -32,3 +32,7 @@ With the default setting, WARM_PREFIX_TARGET will allocate one additional comple
 ```
 kubectl set env ds aws-node -n kube-system WARM_PREFIX_TARGET=1
 ```
+
+## Ingress-Nginx
+
+When destroying cluster the ingress nginx first needs to be uninstalled otherwise it blocks the deletion of the instances and VPCs that it is assigned to.
