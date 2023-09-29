@@ -1,0 +1,15 @@
+apiVersion: v1
+stringData:
+  project: tooling
+  type: git
+  url: https://github.com/tbenedek92/platform-demo.git
+  name: platform-demo
+kind: Secret
+metadata:
+  annotations:
+    managed-by: argocd.argoproj.io
+  labels:
+    argocd.argoproj.io/secret-type: repository
+  name: git-platform-demo-repo
+  namespace: argocd
+type: Opaque
