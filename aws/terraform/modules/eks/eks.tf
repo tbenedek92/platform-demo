@@ -34,7 +34,7 @@ module "eks" {
     general = {
       min_size     = 2
       max_size     = 10
-      desired_size = 6
+      desired_size = 8
       labels = {
         role = "general"
       }
