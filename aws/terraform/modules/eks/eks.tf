@@ -5,8 +5,8 @@ module "eks" {
   cluster_name    = var.cluster_name
   cluster_version = "1.28"
 
-  cluster_endpoint_private_access = true # was false when running
-  cluster_endpoint_public_access  = true  # was true when running succesfully
+  cluster_endpoint_private_access = true 
+  cluster_endpoint_public_access  = true  
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnet_ids
@@ -46,6 +46,8 @@ module "eks" {
   }
   # create_aws_auth_configmap = true 
   manage_aws_auth_configmap = true
+
+  # TODO: replace with a group
   aws_auth_roles = [
     {
       rolearn  = "arn:aws:iam::570775155304:role/AWSReservedSSO_AdministratorAccess_cda24081429f1c83"
@@ -53,21 +55,9 @@ module "eks" {
       groups   = ["system:masters"]
     },
   ]
-  # aws_auth_users = [
-  #   {
-  #     userarn  = "arn:aws:sts::570775155304:assumed-role/AWSReservedSSO_AdministratorAccess_cda24081429f1c83/benedek-platform-admin"
-  #     username = "benedek-platform-admin"
-  #     groups   = ["system:masters"]
-  #   }
-  # ]
 
   tags = var.eks_tags
 }
-
-
-# data "aws_eks_cluster" "cluster" {
-#   name = module.eks.cluster_name
-# }
 
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_name
