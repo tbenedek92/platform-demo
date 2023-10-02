@@ -1,4 +1,26 @@
 # platform-demo
+
+## Current state
+
+GitHub Action pipeline can:
+- Provision an EKS cluster using terraform
+  - Deploys the neccessary network components
+  - Deploys a managed node group
+  - Deploys EKS resource
+- Authenticate to k8s
+- Install ArgoCD
+- Boostrap ArgoCD, which installs
+  - Install further cluster components:
+    - ingress-nginx
+    - metrics-server
+    - crossplane
+
+# Next steps
+- Configure Crossplane to work with Azure 
+- Setup sealed-secrets for the ability to store secrets in GH
+- Setup Azure resources with Crossplane
+- Deploy a demo application with ArgoCD to Azure cluster, using resources provisioned by Crossplane on-demand
+
 ## Goal
 My goal with this project is to create a small platform leveraging cloud providers:
 - Provision an EKS cluster with terraform
