@@ -118,4 +118,4 @@ jobs:
             kubectl apply -f aws/argocd/applications
 
     - name: Deploy sealed-secrets TLS secret
-      run: kubectl create secret tls sealed-secrets-key --cert=${{ secrets.SEALED_SECRET_CRT }} --key=${{ secrets.SEALED_SECRET_KEY }} -n kube-system
+      run: kubectl create secret tls sealed-secrets-key --cert=<(echo ${{ secrets.SEALED_SECRET_CRT }}) --key=<(echo ${{ secrets.SEALED_SECRET_KEY }}) -n kube-system
