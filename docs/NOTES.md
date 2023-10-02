@@ -39,3 +39,16 @@ kubectl set env ds aws-node -n kube-system WARM_PREFIX_TARGET=1
 ## Ingress-Nginx
 
 When destroying cluster the ingress nginx first needs to be uninstalled otherwise it blocks the deletion of the instances and VPCs that it is assigned to.
+
+# Update local Kubeconfig
+
+Run the below command to authenticate to aws
+```
+aws configure sso 
+```
+
+Run the below command to update local kubeconfig
+
+```
+aws eks update-kubeconfig --region eu-central-2 --name tooling-cluster --kubeconfig ~/.kube/kubeconfigs/aws --alias aws-tooling
+```
