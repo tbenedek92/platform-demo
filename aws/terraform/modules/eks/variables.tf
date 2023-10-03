@@ -31,3 +31,7 @@ variable "node_group_desired_size" {
   description = "Desired size of the nodegroup deployed k8s cluster"
   default = 5
 }
+
+variable "network_name" {
+  default = "platform-demo-eks-vpc"
+}
