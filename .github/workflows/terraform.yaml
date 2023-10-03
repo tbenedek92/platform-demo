@@ -103,7 +103,7 @@ jobs:
     - name: Enable prefix delegation
       run: kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 
-    - name: helm repo add ingress-nginx 
+    - name: helm repo add argo
       run: |
             helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx && \
             helm repo add argo https://argoproj.github.io/argo-helm && \
@@ -118,4 +118,4 @@ jobs:
             kubectl apply -f aws/argocd/applications
 
     - name: Deploy sealed-secrets TLS secret
-      run: kubectl create secret tls sealed-secrets-key --cert=<(echo ${{ secrets.SEALED_SECRET_CRT }} | base64 -d) --key=<(echo ${{ secrets.SEALED_SECRET_KEY }} | base64 -d) -n kube-system
+      run: kubectl create secret tls sealed-secrets-key --cert=<(echo ${{ secrets.SEALED_SECRET_CRT }} | base64 -d) --key=<(echo ${{ secrets.SEALED_SECRET_KEY }} | base64 -d) -n kube-system -o yaml --dry-run=client | kubectl apply -f -
