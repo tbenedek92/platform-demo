@@ -21,3 +21,21 @@ variable "eks_tags" {
   description = "Resource tags"
   type        = map(string)
 }
+
+variable "node_group_min_size" {
+  type = number
+  description = "Min size of the nodegroup deployed k8s cluster"
+  default = 5
+}
+
+variable "node_group_max_size" {
+  type = number
+  description = "Max size of the nodegroup deployed k8s cluster"
+  default = 20
+}
+
+variable "node_group_desired_size" {
+  type = number
+  description = "Desired size of the nodegroup deployed k8s cluster"
+  default = 10
+}

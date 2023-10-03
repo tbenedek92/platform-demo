@@ -52,3 +52,9 @@ Run the below command to update local kubeconfig
 ```
 aws eks update-kubeconfig --region eu-central-2 --name tooling-cluster --kubeconfig ~/.kube/kubeconfigs/aws --alias aws-tooling
 ```
+
+# Delete stuck argo apllication
+this removes the finalizer
+```
+kubectl patch application.argoproj.io crossplane-bootstrapped --type json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+```

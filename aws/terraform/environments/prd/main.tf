@@ -1,6 +1,11 @@
 module "eks_cluster" {
   source = "../../modules/eks"
   
-  # vpc_id = module.vpc.vpc_id
-  # iam_role_arn = module.iam_roles.eks_role_arn
+  aws_region = var.aws_region
+  cluster_name = var.cluster_name
+  eks_tags = var.eks_tags
+  node_group_min_size = var.node_group_min_size
+  node_group_max_size = var.node_group_max_size
+  node_group_desired_size = var.node_group_desired_size
+  network_name = var.network_name
 }

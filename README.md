@@ -14,10 +14,13 @@ GitHub Action pipeline can:
     - ingress-nginx
     - metrics-server
     - crossplane
+    - sealed-secrets
+- Bootstrap crossplane resources:
+  - provider
+  - provide-config
+  - demo resource-group
 
 # Next steps
-- Configure Crossplane to work with Azure 
-- Setup sealed-secrets for the ability to store secrets in GH
 - Setup Azure resources with Crossplane
 - Deploy a demo application with ArgoCD to Azure cluster, using resources provisioned by Crossplane on-demand
 
