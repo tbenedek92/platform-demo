@@ -83,6 +83,6 @@ resource "aws_security_group_rule" "allow_eks_cluster_to_node_on_8080" {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = module.eks.node_groups["general"].resources[0].remote_access_security_group_id
+  security_group_id = module.eks.eks_managed_node_groups["general"].resources[0].remote_access_security_group_id
   source_security_group_id = module.eks.cluster_security_group_id
 }
