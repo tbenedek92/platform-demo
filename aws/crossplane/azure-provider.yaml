@@ -1,11 +1,6 @@
-apiVersion: azure.upbound.io/v1beta1
-kind: ProviderConfig
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
 metadata:
-  name: azure-provider
+  name: provider-azure-network
 spec:
-  credentials:
-    source: Secret
-    secretRef:
-      namespace: crossplane
-      name: azure-provider-secret
-      key: credentials
+  package: xpkg.upbound.io/upbound/provider-azure-network:v0.34.0
