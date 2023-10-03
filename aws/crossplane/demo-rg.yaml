@@ -1,4 +1,4 @@
-apiVersion: azure.crossplane.io/v1alpha3
+apiVersion: azure.upbound.io/v1beta1
 kind: ResourceGroup
 metadata:
   name: demo-rg
@@ -7,4 +7,4 @@ spec:
   location: East US
   reclaimPolicy: Delete
   providerConfigRef:
-    name: default
+    name: azure-provider
