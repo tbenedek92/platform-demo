@@ -59,6 +59,7 @@ module "eks" {
   tags = var.eks_tags
 }
 
+# Needs to provision the aws_auth_roles
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_name
 }
@@ -75,7 +76,7 @@ provider "kubernetes" {
 }
 
 
-# security group to enable kubeseal
+# security group to enable kubeseal cli-tool
 resource "aws_security_group_rule" "allow_eks_cluster_to_node_on_8080" {
   type        = "ingress"
   from_port   = 8080
