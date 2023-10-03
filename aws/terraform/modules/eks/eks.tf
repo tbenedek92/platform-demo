@@ -76,13 +76,13 @@ provider "kubernetes" {
 
 
 # security group to enable kubeseal
-resource "aws_security_group_rule" "allow_eks_cluster_to_node_on_8080" {
-  type        = "ingress"
-  from_port   = 8080
-  to_port     = 8080
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
+# resource "aws_security_group_rule" "allow_eks_cluster_to_node_on_8080" {
+#   type        = "ingress"
+#   from_port   = 8080
+#   to_port     = 8080
+#   protocol    = "tcp"
+#   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = module.eks.eks_managed_node_groups["general"].aws_security_group.id
-  source_security_group_id = module.eks.cluster_security_group_id
-}
+#   security_group_id = module.eks.eks_managed_node_groups["general"].aws_security_group.id
+#   source_security_group_id = module.eks.cluster_security_group_id
+# }
