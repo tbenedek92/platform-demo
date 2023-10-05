@@ -5,6 +5,7 @@ metadata:
   namespace: argocd
   labels:
     tool: crossplane
+    host-cloud: aws
 spec:
   project: tooling
   source:
