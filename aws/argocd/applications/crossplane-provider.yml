@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane-provider
+  namespace: argocd
+spec:
+  project: tooling
+  source:
+    repoURL: 'https://github.com/tbenedek92/platform-demo.git'
+    path: aws/crossplane/provider
+    targetRevision: main
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: crossplane
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

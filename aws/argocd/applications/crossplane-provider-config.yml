@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane-bootstrapped
+  name: crossplane-provider
   namespace: argocd
 spec:
   project: tooling
   source:
     repoURL: 'https://github.com/tbenedek92/platform-demo.git'
-    path: aws/crossplane
+    path: aws/crossplane/provider/config
     targetRevision: main
     directory:
       recurse: true
